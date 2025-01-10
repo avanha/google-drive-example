@@ -1,8 +1,7 @@
 <html>
   <head>
-    <meta name="google-signin-client_id" content="80614719015-2mrs952cl2mplj4absf7siq48mtrat5l.apps.googleusercontent.com">
     <title>Google Drive Integration Example</title>
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="script.js" async defer></script>
     <style>
       #txtDebug {
@@ -13,7 +12,12 @@
   </head>
   <body>
     <h1>Google Drive Integration Example</h1>
-    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+    
+    <div id="g_id_onload"
+         data-client_id="80614719015-2mrs952cl2mplj4absf7siq48mtrat5l.apps.googleusercontent.com"
+         data-callback="handleCredentialResponse">
+    </div>
+    <div class="g_id_signin" data-type="standard"></div>
     <textarea id="txtDebug" rows="50">Hello,
       There!
     </textarea>
