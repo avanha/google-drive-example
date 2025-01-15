@@ -295,7 +295,8 @@ class App {
                 () => {
                     return gapi.client.drive.files.get({
                         'fileId': fileId,
-                        'fields': FILE_FIELDS
+                        'fields': FILE_FIELDS,
+                        'supportsAllDrives': true,
                     });
                 });
             console.log('getFile response: ', response);
