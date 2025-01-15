@@ -3,6 +3,7 @@ const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/drive/v3/res
 const DRIVE_FILE_SCOPE = 'https://www.googleapis.com/auth/drive.file';
 const FILE_FIELDS = 'id, parents, name, owners, modifiedTime, mimeType';
 const MAX_FILE_COUNT = 1000;
+const INTERACTIVE = true;
 
 
 class App {
@@ -356,7 +357,7 @@ class App {
     async #execGoogleApiRequest(scope, call) {
         // Request the required scope if we don't already have it.
         if (!this.#hasScope(scope)) {
-            await this.#requestScope(scope);
+            await this.#requestScope(scope, INTERACTIVE);
         }
 
         let response = null;
