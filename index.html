@@ -1,24 +1,79 @@
 <html>
   <head>
     <title>Google Drive Integration Example</title>
-    <script src="script.js" async defer></script>
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <style>
-      #txtDebug {
-        height: 50em;
-        width: 75%;
-      }
-    </style>
+    <link rel="stylesheet" href="styles.css"/>
+    <script src="script.js" asyn defer></script>
+    <script src="https://accounts.google.com/gsi/client" async defer onload="document.dispatchEvent(new Event('gsiloaded'))"></script>
+    <script src="https://apis.google.com/js/api.js" async defer onload="document.dispatchEvent(new Event('gapiloaded'))"></script>
   </head>
   <body>
-    <h1>Google Drive Integration Example</h1>
-    <div id="g_id_onload"
-         data-client_id="80614719015-2mrs952cl2mplj4absf7siq48mtrat5l.apps.googleusercontent.com"
-         data-callback="onSignIn">
+    <div class="container top">
+      <h1>Google Drive Integration Example</h1>
+      <div id="sessionActive" data-visible-display-mode="flex">
+        <img id="userProfilePic" />
+        <span id="userName"></span>
+        <span id="userEmail"></span>
+        <button id="getTokenButton">Get Token</button>
+        <button id="logoutButton">Logout</button>
+      </div>
     </div>
-    <div class="g_id_signin" data-type="standard"></div>
-    <textarea id="txtDebug" rows="50">Hello,
-      There!
-    </textarea>
+    <div id="session">
+      <div id="sessionLoading">Loading...</div>
+    </div>
+    <div id="sessionLogin">
+      <div>Login Panel</div>
+      <div id="g_id_onload"
+        data-client_id="80614719015-2mrs952cl2mplj4absf7siq48mtrat5l.apps.googleusercontent.com"
+        data-callback="onSignIn">
+      </div>
+      <div class="g_id_signin" data-type="standard"></div>
+    </div>
+    <div class="section">
+      <div class="container">
+        <div id="fileIdPanel">
+          <span class="text-label">File Id</span><input id="fileIdText" type="text"/>
+          <button id="getFileButton">Get File</button>
+          <button id="authorizeFileButton">Authorize File</button>
+        </div>
+        <div>
+          <button id="pickFileButton">Pick File</button>
+        </div>
+    </div>
+    </div>
+    <div class="section">
+      <div class="section-header container center-align">
+        <div>Accessible Files (Max 1000)</div>
+        <button id="listFilesButton">Refresh</button>
+      </div>
+      <table id="filesTable">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Parent</th>
+            <th>Name</th>
+            <th>MIME Type</th>
+            <th>Owner</th>
+            <th>Last Modified</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="placeholderRow" data-visiable-display-mode="table-row">
+            <td colspan="6">Loading...</td>
+          </tr>
+          <tr id="templateRow">
+            <td>fileId</td>
+            <td>parentId</td>
+            <td>name</td>
+            <td>mimeType</td>
+            <td>owner</td>
+            <td>1970-01-01 00:00:00</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="section">
+      <div class="section-header">Debug Output</div>
+      <textarea id="debugText" rows="50"></textarea>
+    </div>
   </body>
 </html>

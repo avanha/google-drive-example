@@ -1,0 +1,107 @@
+body {
+    display: flex;
+    flex-direction: column;
+    /*border: 1px;*/
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  /*
+  body > * {
+    border: 1px solid black;
+  }
+  */
+
+  #txtDebug {
+    height: 50em;
+    width: 75%;
+  }
+
+  #sessionActive {
+    display: none;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  #sessionActive > * {
+    margin: 0px 5px;
+  }
+
+  #sessionActive #userProfilePic {
+    width: 25px;
+    height: 25px;
+  }
+
+  #sessionActive #userName {
+    display: none;
+  }
+
+  #sessionLogin {
+    display: none;
+  }
+
+  #fileIdText {
+    width: 36ch;
+  }
+
+  #templateRow {
+    display: none;
+  }
+
+  #filesTable {
+    border: 1px solid black;
+    border-collapse: collapse;
+    min-width: 100ch;
+    text-align: left;
+  }
+
+  #filesTable th {
+    background-color: lightgray;
+  }
+
+  #filesTable th, #filesTable td {
+    padding: 5px 10px; 
+  }
+
+  #filesTable tr.file {
+    display: table-row;
+  }
+
+  #filesTable tr:nth-child(even){
+    background-color: #f2f2f2
+  }
+
+  .container {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .container.top h1{
+    flex: 1;
+  }
+
+  .container.center-align > *{
+    align-self: center;
+  }
+
+  .container > * {
+    margin: 0px 5px;
+  }
+
+
+  .section {
+    margin: 10px 0px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .section-header {
+    font-size: larger;
+    font-weight: bold;
+    margin-bottom: 7px;
+  }
+
+
+  .text-label:after {
+    content: ": ";
+  }
