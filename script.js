@@ -402,7 +402,13 @@ class App {
             cells[1].innerText = file.parents[0];
             cells[2].innerText = file.name;
             cells[3].innerText = file.mimeType;
-            cells[4].innerText = file.owners[0].emailAddress;
+
+            if (file.owners) {
+              cells[4].innerText = file.owners[0].emailAddress;
+            } else {
+                // Files in Shared Drives don't have owners
+                cells[4].innerText = 'No Owner';
+            }
             cells[5].innerText = file.modifiedTime;
             tbody.appendChild(newRow);
         }
@@ -410,8 +416,28 @@ class App {
 
     async pickFile() {
         const token = gapi.client.getToken();
+        
+        // Custome a docs view for Drive
+        const driveView = new google.picker.DocsView(google.picker.ViewId.DOCS);
+
+        driveView.setIncludeFolders(true);
+        driveView.setSelectFolderEnabled(true);
+        driveView.setMode(google.picker.DocsViewMode.LIST);
+        
+        // Start the view at the "My Drive" root.  The user can still search for docs outside the root.
+        // See https://developers.google.com/drive/picker/reference/picker.docsview for more options.
+        driveView.setParent('ROOT');
+
+        const sdView = new google.picker.DocsView(google.picker.ViewId.DOCS);
+        // This will show only Shared Drives
+        sdView.setEnableDrives(true);
+        sdView.setIncludeFolders(true);
+        sdView.setSelectFolderEnabled(true);
+        sdView.setMode(google.picker.DocsViewMode.LIST);
+        
         const picker = new google.picker.PickerBuilder()
-        .addView(google.picker.ViewId.DOCS)
+        .addView(driveView)
+        .addView(sdView)
         // Supply only the token itself, rather than a token wrapper object.
         .setOAuthToken(token.access_token) 
         // API key Not needed when using OAuth
@@ -431,7 +457,6 @@ class App {
 
         // Create a DOCS view with a specific file Id preselected
         const driveView = new google.picker.DocsView(google.picker.ViewId.DOCS);
-        //driveView.setEnableDrives(true);
         driveView.setIncludeFolders(true);
         driveView.setSelectFolderEnabled(true);
         driveView.setFileIds(fileId);
