@@ -4,6 +4,10 @@ const DRIVE_FILE_SCOPE = 'https://www.googleapis.com/auth/drive.file';
 const FILE_FIELDS = 'id, parents, name, owners, modifiedTime, mimeType';
 const MAX_FILE_COUNT = 1000;
 const INTERACTIVE = true;
+// google: 
+// const APP_ID = '80614719015';
+// personal:
+const APP_ID = '808003952064';
 
 
 class App {
@@ -442,7 +446,7 @@ class App {
         .setOAuthToken(token.access_token) 
         // API key Not needed when using OAuth
         //.setDeveloperKey('API_KEY') 
-        .setAppId('80614719015') // This needs to be set for the picker to add the app to the file's App ACL.
+        .setAppId(APP_ID) // This needs to be set for the picker to add the app to the file's App ACL.
         .setCallback(this.#onPickerEvent.bind(this))
         .build();
         picker.setVisible(true);        
@@ -467,7 +471,7 @@ class App {
         .setOAuthToken(token.access_token) 
         // API key Not needed when using OAuth
         //.setDeveloperKey('API_KEY') 
-        .setAppId('80614719015') // This needs to be set for the picker to add the app to the file's App ACL.
+        .setAppId(APP_ID) // This needs to be set for the picker to add the app to the file's App ACL.
         .setCallback(this.#onPickerEvent.bind(this))
         .build();
         picker.setVisible(true);        
