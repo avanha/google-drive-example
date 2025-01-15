@@ -1,7 +1,7 @@
 
 const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest';
 const DRIVE_FILE_SCOPE = 'https://www.googleapis.com/auth/drive.file';
-const FILE_FIELDS = 'id, parents, name, owners, modifiedTime, mimeType';
+const FILE_FIELDS = 'id, parents, name, owners, modifiedTime, mimeType, webViewLink, webContentLink';
 const MAX_FILE_COUNT = 1000;
 const INTERACTIVE = true;
 // google: 
