@@ -310,7 +310,7 @@ class App {
         let pageToken = null;
         let fileCount = 0;
         const request = {
-            'pageSize': 2,
+            'pageSize': 25,
             'corpora': 'allDrives',
             'includeItemsFromAllDrives': true,
             'supportsAllDrives': true,
