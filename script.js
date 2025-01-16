@@ -57,7 +57,15 @@ class App {
     onLogin(credentials, jwt) {
         this.#jwt = jwt;
         localStorage.setItem('googleCredentials', credentials);
+        this.#setCookie('SID', 'loggedIn', 30);
+        
         this.#onLoginStateChanged();
+    }
+
+    #setCookie(name, value, days) {
+        const now = new Date();
+        const expiration = new Date(now.getTime() + (days * 24 * 60 * 60 * 1000));
+        document.cookie = `${name}=${value};expires=${expiration.toUTCString()};path=/`;
     }
 
     #onGapiLoaded() {
@@ -116,6 +124,7 @@ class App {
         this.#debugText = document.getElementById('debugText');
 
         this.#getTokenButton.addEventListener("click", this.#onGetTokenButtonClick.bind(this));
+        this.#logoutButton.addEventListener("click", this.#onLogoutButtonClick.bind(this));
         this.#getFileButton.addEventListener("click", this.#onGetFileButtonClick.bind(this));
         this.#authorizeFileButton.addEventListener("click", this.#onAuthorizeFileButtonClick.bind(this));
 
@@ -138,6 +147,15 @@ class App {
         this.#currentScopes = tokenData.scopes;
 
         return true;
+    }
+
+    #onLogoutButtonClick() {
+        localStorage.clear();
+        this.#setCookie('SID', '', -1);
+        this.#jwt = null;
+        this.#accessToken = null;
+        this.#currentScopes = null;
+        this.#onLoginStateChanged();
     }
 
     #onGetTokenButtonClick() {
@@ -233,9 +251,9 @@ class App {
                 scope: scope,
                 include_granted_scopes: true,
                 enable_granular_consent: true,
-                select_account: false, 
+                //select_account: false, 
                 login_hint: app.#jwt.sub,
-                prompt: interactive ? 'consent' : 'none',
+                prompt: '', //interactive ? 'consent' : 'none',
                 callback: tokenCallback
             });
             app.#tokenclient.requestAccessToken();

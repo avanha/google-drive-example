@@ -28,6 +28,8 @@
       -->
       <div id="g_id_onload"
         data-client_id="808003952064-0i1ocv5993de629uk5uabkn9620rbhl3.apps.googleusercontent.com"
+        data-skip_prompt_cookie="SID"
+        data-auto_select="true"
         data-callback="onSignIn">
       </div>
       <div class="g_id_signin" data-type="standard"></div>
@@ -41,12 +43,13 @@
       <p>
         It uses the <i>https://www.googleapis.com/auth/drive.file</i> OAuth scope which requires each user to authorize the app to access specific files.
         You can use the "Pick File" button to make any file you have access to available to the app.
-        If you have already have a file ID, you can grant the app access to the fuke using the "Authorize File" button.  This button the configures the picker to present the specified file.
+        If you already have a file ID, you can grant the app access to the file using the "Authorize File" button.
+        This button the configures the picker to present only the specified file.
       </p>
 
       <p>
         As of 2025-01-15, this app is a proof-of-concept which still has some rough edges, and with some missing functionality.  
-        The OAuth client identity used in "test" mode, which means only pre-authorized email addresses are able to complete the OAuth token retrieval flow.
+        The OAuth client identity used is in "test" mode, which means only pre-authorized email addresses are able to complete the OAuth token retrieval flow.
       </p>
       <p>
         The code for this example is available at <a href="https://github.com/avanha/google-drive-example" target="_blank">https://github.com/avanha/google-drive-example</a>
