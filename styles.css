@@ -65,10 +65,18 @@ body {
 
   #filesTable tr.file {
     display: table-row;
+    font-size: x-small;
   }
 
   #filesTable tr:nth-child(even){
     background-color: #f2f2f2
+  }
+
+  #filesTable .parent-id {
+    width: 25ch;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    margin-right: 5px;
   }
 
   .container {

@@ -421,8 +421,10 @@ class App {
             newRow.removeAttribute('id');
             newRow.classList.add('file');
             const cells = newRow.getElementsByTagName("td");
+            const parentIdElement = newRow.querySelector(".parent-id");
             cells[0].innerText = file.id;
-            cells[1].innerText = file.parents[0];
+            //cells[1].innerText = file.parents[0];
+            parentIdElement.innerText = file.parents[0];
             cells[2].innerText = file.name;
             cells[3].innerText = file.mimeType;
 
