@@ -65,7 +65,7 @@ body {
 
   #filesTable tr.file {
     display: table-row;
-    font-size: x-small;
+    font-size: small;
   }
 
   #filesTable tr:nth-child(even){
