@@ -13,6 +13,7 @@ const APP_ID = '808003952064';
 class App {
     #jwt = null;
     #onDocumentReadyStateChangeHandler = null;
+    #onParentIdCopyClickHandler = null;
     #sessionLoadingPanel = null;
     #sessionActivePanel = null;
     #logoutButton = null;
@@ -45,6 +46,8 @@ class App {
             this.#onDocumentReadyStateChangeHandler = this.#onDocumentReadyStateChange.bind(this);
             document.addEventListener('readystatechange', this.#onDocumentReadyStateChangeHandler);
         }
+
+        this.#onParentIdCopyClickHandler = this.#onParentIdCopyClick.bind(this);
     }
 
     #onDocumentReadyStateChange() {
@@ -178,7 +181,6 @@ class App {
         }
     }
 
-
     async #onGetFileButtonClick() {
         const fileId = this.#fileIdText.value.trim();
 
@@ -193,10 +195,12 @@ class App {
         const fileId = this.#fileIdText.value.trim();
 
         if (fileId === '') {
-            return;
+            return false;
         }
 
-        this.authorizeFile(fileId);
+        await this.authorizeFile(fileId);
+
+        return true;
     }
 
     async #onListFilesButtonClick() {
@@ -209,18 +213,32 @@ class App {
             }
         }
 
-        this.listFiles();
+        await this.listFiles();
     }
 
     async #onPickFileButtonClick() {
         if (this.#hasScope(DRIVE_FILE_SCOPE)) {
-            this.pickFile();
-        } else {
-            // Request drive file scope, and then execute pick file.
-            const pickFileCallback = this.pickFile.bind(this);
-            await this.#requestScope(DRIVE_FILE_SCOPE, true);
-            this.pickFile();
+            return await this.pickFile();
         }
+
+        // Request drive file scope, and then execute pick file.
+        const pickFileCallback = this.pickFile.bind(this);
+        await this.#requestScope(DRIVE_FILE_SCOPE, true);
+        return this.pickFile();
+    }
+
+    async #onParentIdCopyClick(event) {
+        const parentId = event.target.parentElement.querySelector('.parent-id').innerText;
+        let result = false;
+        try {
+            await navigator.clipboard.writeText(parentId);
+            this.#printDebug(`Copied parentId ${parentId} to clipboard`);
+            result = true;
+        } catch (error) {
+            console.log('Error copying to clipboard', error);
+        }
+
+        return result;
     }
 
     #hasScope(scope) {
@@ -228,7 +246,7 @@ class App {
             return false;
         }
 
-        return this.#currentScopes.indexOf(scope) != -1;
+        return this.#currentScopes.indexOf(scope) !== -1;
     }
 
     async #requestScope(scope, interactive) {
@@ -307,6 +325,7 @@ class App {
 
     async getFile(fileId) {
         let response = null;
+        let result = false;
         try {
             response = await this.#execGoogleApiRequest(
                 DRIVE_FILE_SCOPE, 
@@ -319,14 +338,17 @@ class App {
                 });
             console.log('getFile response: ', response);
             this.#printDebug('Retrieved file: ' + JSON.stringify(response.result));
+            result = true;
         }  catch (error) {
-            if (error.status == 404) {
+            if (error.status === 404) {
                 this.#printDebug(`File ${fileId} not found.  If it's a valid file ID, authorization may be required.`);
             } else {
                 this.#printDebug(`Failed to get file ${fileId}: ${error}`);
                 console.error('Failed to get file', error);
             }
         }
+
+        return result;
     }
 
     async listFiles() {
@@ -394,7 +416,7 @@ class App {
                 attempt = attempt + 1;
                 response = await call();
             } catch (error) {
-                if (error.status == 401) {
+                if (error.status === 401) {
                     if (attempt >= 2) {
                         throw new Error(`Received status 401 unauthorized on attempt ${attempt}`);
                     }
@@ -422,9 +444,10 @@ class App {
             newRow.classList.add('file');
             const cells = newRow.getElementsByTagName("td");
             const parentIdElement = newRow.querySelector(".parent-id");
+            const parentIdCopyIconElement = newRow.querySelector('i.bi-copy');
             cells[0].innerText = file.id;
-            //cells[1].innerText = file.parents[0];
             parentIdElement.innerText = file.parents[0];
+            parentIdCopyIconElement.addEventListener('click', this.#onParentIdCopyClickHandler);
             cells[2].innerText = file.name;
             cells[3].innerText = file.mimeType;
 
@@ -442,7 +465,7 @@ class App {
     async pickFile() {
         const token = gapi.client.getToken();
         
-        // Custome a docs view for Drive
+        // Customize a docs view for Drive
         const driveView = new google.picker.DocsView(google.picker.ViewId.DOCS);
 
         driveView.setIncludeFolders(true);

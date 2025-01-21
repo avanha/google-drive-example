@@ -2,6 +2,7 @@
   <head>
     <title>Google Drive Integration Example</title>
     <link rel="stylesheet" href="styles.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="script.js"></script>
     <script src="https://accounts.google.com/gsi/client" async defer onload="document.dispatchEvent(new Event('gsiloaded'))"></script>
     <script src="https://apis.google.com/js/api.js" async defer onload="document.dispatchEvent(new Event('gapiloaded'))"></script>
@@ -42,7 +43,7 @@
       </p>
       <p>
         It uses the <i>https://www.googleapis.com/auth/drive.file</i> OAuth scope which requires each user to authorize the app to access specific files.
-        You can use the "Pick File" button to make any file you have access to available to the app.
+        You can use the "Pick File" button to make any file you have access to, available to the app.
         If you already have a file ID, you can grant the app access to the file using the "Authorize File" button.
         This button the configures the picker to present only the specified file.
       </p>
@@ -90,12 +91,10 @@
           <tr id="templateRow">
             <td>fileId</td>
             <td class="container center-align">
-              <div class="parent-id">
+              <span class="parent-id">
                 parentId
-              </div>
-              <div>
-                <button>C</button>
-              </div>
+              </span>
+              <i class="bi bi-copy"></i>
             </td>
             <td>name</td>
             <td>mimeType</td>
